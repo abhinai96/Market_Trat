@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request
-import pandas as pd
+
 from bs4 import BeautifulSoup
 import requests
-import os
+
 import re
 
 app=Flask(__name__)
