@@ -1,3 +1,4 @@
+#Importing the necessary Libraries
 from flask import Flask, render_template, request
 
 from bs4 import BeautifulSoup
@@ -14,12 +15,12 @@ def index():
 @app.route("/",methods=["POST"])
 def getdata():
     name=request.form["name"]
-    url = "https://google.com/search?q=" + name
+    url = "https://google.com/search?q=" + name          #search the name in  google
     res = requests.get(url).text.strip()
-    soup = BeautifulSoup(res, "html.parser")
+    soup = BeautifulSoup(res, "html.parser") #parsing the results of the google search
     #print(soup.prettify())
     search = soup.find_all("span", class_="BNeawe tAd8D AP7Wnd")
-    email_pattern = re.compile("[-A-Za-z0-9._]+@[-a-zA-Z0-9._]+")
+    email_pattern = re.compile("[-A-Za-z0-9._]+@[-a-zA-Z0-9._]+")  #Using regular expressions for extracting the email address
     emails = re.findall(email_pattern, res)
     if len(emails) == 0:
         print("email id is not found")
@@ -27,7 +28,7 @@ def getdata():
         print("emailid:", emails)
 
     if len(search[1:3]) == 0:
-        print(" phone number not found")
+        print(" phone number not found")     #Extracting the phone number from the google search results
     else:
         for i in search[1:3]:
             phone = i.text
@@ -39,7 +40,7 @@ def getdata():
 
         for i in search[:1]:
             address = i.text
-            print("Address", address)
+            print("Address", address)     #Extracting the address of the organisation from the google search results
     c=["email_id:",str(emails),
        "phone:",phone,
        "address:",address]
